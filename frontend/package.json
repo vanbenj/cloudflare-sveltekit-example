@@ -1,0 +1,36 @@
+{
+	"name": "frontend",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "pnpm run build && wrangler dev",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"deploy": "pnpm run build && wrangler deploy",
+		"cf-typegen": "wrangler types ./src/worker-configuration.d.ts"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-cloudflare": "^7.2.4",
+		"@sveltejs/kit": "^2.47.1",
+		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"@types/node": "^24.10.1",
+		"svelte": "^5.41.0",
+		"svelte-check": "^4.3.3",
+		"typescript": "^5.9.3",
+		"vite": "^7.2.4",
+		"vite-plugin-devtools-json": "^0.1.0",
+		"wrangler": "^4.51.0"
+	},
+	"dependencies": {
+		"@cloudflare/vite-plugin": "^1.15.3"
+	},
+	"pnpm": {
+		"overrides": {
+			"vite": "^7.2.4"
+		}
+	}
+}
