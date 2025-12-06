@@ -24,6 +24,11 @@
 				"name": "TEST_DO",
 				"class_name": "TestDurableObject",
 				"script_name": "backend-test"
+			},
+			{
+				"name": "MESSAGE_COORDINATOR",
+				"class_name": "MessageCoordinator",
+				"script_name": "backend-test"
 			}
 		]
 	},

@@ -3,6 +3,7 @@
 
 export interface Env {
     TEST_DO: DurableObjectNamespace;
+    MESSAGE_COORDINATOR: DurableObjectNamespace;
 }
 declare global {
 	namespace App {

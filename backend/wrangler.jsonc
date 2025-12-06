@@ -12,8 +12,12 @@
 	},
 	"migrations": [
 		{
-		"tag": "v1",
-		"new_classes": ["TestDurableObject"]
+			"tag": "v1",
+			"new_classes": ["TestDurableObject"]
+		},
+		{
+			"tag": "v2",
+			"new_classes": ["MessageCoordinator"]
 		}
 	],
 	"durable_objects": {
@@ -21,6 +25,10 @@
 			{
 				"name": "TEST_DO",
 				"class_name": "TestDurableObject"
+			},
+			{
+				"name": "MESSAGE_COORDINATOR",
+				"class_name": "MessageCoordinator"
 			}
 		]
 	},

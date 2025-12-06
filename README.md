@@ -41,6 +41,39 @@ pnpm run dev
 
 The backend runs using `wrangler dev`, while the frontend runs using `vite dev` (via the Cloudflare Vite plugin). This approach uses the "multiple dev commands" pattern, where each Worker runs independently and can communicate via service bindings or Durable Object bindings across Workers.
 
+## WebSocket Demo
+
+The main page includes a WebSocket countdown demo that demonstrates real-time communication using Cloudflare Durable Objects.
+
+### How it works
+
+1. **Click "Start Countdown"** - triggers a form action that sends 11 messages (10 to 0) spaced 1 second apart
+2. **Messages broadcast via WebSocket** - the `MessageCoordinator` Durable Object broadcasts to all connected clients
+3. **Real-time display** - the UI updates as each countdown message arrives
+
+### Architecture
+
+```
+Browser ←WebSocket→ MessageCoordinator (Durable Object) ←POST→ SvelteKit Action
+```
+
+- `frontend/src/lib/websocket.ts` - WebSocket client with auto-reconnect
+- `frontend/src/lib/components/WebSocketStatus.svelte` - Connection status indicator (red/amber/green)
+- `backend/src/message-coordinator.ts` - Durable Object handling WebSocket connections and broadcasting
+
+### Dev Mode WebSocket Workaround
+
+In development, Vite's dev server intercepts all WebSocket connections for HMR (Hot Module Replacement), preventing SvelteKit routes from handling WebSocket upgrades.
+
+**Solution**: The WebSocket client connects directly to the backend worker (port 8787) in dev mode:
+
+```typescript
+const isDev = window.location.port === '5173';
+const host = isDev ? 'localhost:8787' : window.location.host;
+```
+
+In production, there's no Vite server - all requests go directly through the Cloudflare Worker, so WebSocket upgrades work normally on the same origin.
+
 ## References
 
 - [Multi-Workers Development Guide](https://developers.cloudflare.com/workers/development-testing/multi-workers/)
