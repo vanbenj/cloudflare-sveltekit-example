@@ -7,6 +7,9 @@
 	"name": "backend-test",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-11-28",
+	"vars": {
+		"NODE_ENV": "production"
+	},
 	"observability": {
 		"enabled": true
 	},

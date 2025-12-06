@@ -21,6 +21,14 @@ export default {
 
 		// Handle WebSocket connections
 		if (url.pathname === '/ws/connect') {
+			// SECURITY: This direct WebSocket endpoint bypasses frontend auth checks.
+			// Only allow in dev/test environments. In production, WebSocket connections
+			// must go through the frontend SvelteKit handler which validates authorization.
+			if (env.NODE_ENV === 'production') {
+				console.log('[ws] Rejected: Direct WebSocket access not allowed in production');
+				return new Response('Unauthorized', { status: 401 });
+			}
+
 			console.log('[Backend] WebSocket connect request');
 
 			if (request.headers.get('Upgrade') !== 'websocket') {

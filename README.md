@@ -41,6 +41,29 @@ pnpm run dev
 
 The backend runs using `wrangler dev`, while the frontend runs using `vite dev` (via the Cloudflare Vite plugin). This approach uses the "multiple dev commands" pattern, where each Worker runs independently and can communicate via service bindings or Durable Object bindings across Workers.
 
+### Backend Environment Variables
+
+The backend worker requires `NODE_ENV` to be set for security. Direct WebSocket access to `/ws/connect` is only allowed when `NODE_ENV` is `'development'` or `'test'`. In production, WebSocket connections must go through the frontend SvelteKit handler which validates authorization.
+
+Set `NODE_ENV` in `backend/wrangler.jsonc`:
+
+```jsonc
+"vars": {
+	"NODE_ENV": "development"
+}
+```
+
+Or use a `.dev.vars` file in the `backend/` directory:
+
+```bash
+cd backend
+cat > .dev.vars << EOF
+NODE_ENV=development
+EOF
+```
+
+**Note**: `.dev.vars` files are gitignored and only used in local development. For production deployments, set environment variables via `wrangler secret put` or the Cloudflare dashboard.
+
 ## WebSocket Demo
 
 The main page includes a WebSocket countdown demo that demonstrates real-time communication using Cloudflare Durable Objects.
@@ -81,6 +104,8 @@ EOF
 ```
 
 You can override these values by setting environment variables or creating a `.env.local` file.
+
+**Security Note**: The backend worker's `/ws/connect` endpoint only accepts direct connections when `NODE_ENV` is set to `'development'` or `'test'`. In production, this endpoint returns 401 Unauthorized, forcing all WebSocket connections to go through the frontend SvelteKit handler at `/api/ws/connect` which validates authorization.
 
 In production, there's no Vite server - all requests go directly through the Cloudflare Worker, so WebSocket upgrades work normally on the same origin.
 
