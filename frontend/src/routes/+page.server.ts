@@ -23,23 +23,14 @@ export const actions: Actions = {
             return { success: false, error: 'Platform not available' };
         }
 
-        const id = platform.env.MESSAGE_COORDINATOR.idFromName('global');
-        const stub = platform.env.MESSAGE_COORDINATOR.get(id);
+        const id = platform.env.COUNTDOWN_TIMER.idFromName('global');
+        const stub = platform.env.COUNTDOWN_TIMER.get(id);
 
-        // Send countdown messages from 10 to 0, spaced 1 second apart
-        for (let i = 10; i >= 0; i--) {
-            await stub.fetch('http://do/broadcast', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ count: i, timestamp: Date.now() })
-            });
+        const response = await stub.fetch('http://do/start', {
+            method: 'POST'
+        });
 
-            // Wait 1 second between messages (except after the last one)
-            if (i > 0) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-        }
-
-        return { success: true };
+        const result = await response.json() as { success: boolean; message?: string };
+        return { success: result.success };
     }
 };

@@ -4,6 +4,7 @@
 export interface Env {
     TEST_DO: DurableObjectNamespace;
     MESSAGE_COORDINATOR: DurableObjectNamespace;
+    COUNTDOWN_TIMER: DurableObjectNamespace;
 }
 declare global {
 	namespace App {
@@ -13,6 +14,13 @@ declare global {
             ctx: ExecutionContext;
         }
     }
+}
+
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+	readonly VITE_WS_HOST?: string;
+	readonly VITE_WS_PATH?: string;
 }
 
 export {};

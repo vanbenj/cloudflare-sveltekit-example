@@ -3,7 +3,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig, type Plugin } from "vite";
 import devtoolsJson from "vite-plugin-devtools-json";
-
+import tailwindcss from "@tailwindcss/vite";
 // Custom plugin to handle WebSocket upgrades for our API
 function websocketPlugin(): Plugin {
   return {
@@ -24,6 +24,7 @@ function websocketPlugin(): Plugin {
 export default defineConfig({
   plugins: [
     websocketPlugin(),
+		tailwindcss() as any,
     sveltekit(),
     paraglideVitePlugin({
       project: "./project.inlang",
@@ -41,3 +42,4 @@ export default defineConfig({
     devtoolsJson(),
   ],
 });
+

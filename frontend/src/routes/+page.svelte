@@ -39,116 +39,53 @@
 	}
 </script>
 
-<h1>{message}</h1>
+<h1 class="text-4xl font-bold mb-8 text-gray-900">{message}</h1>
 
-<div class="websocket-demo">
-	<h2>WebSocket Countdown Demo</h2>
+<div class="mt-8 p-4 border border-gray-300 rounded-lg max-w-md bg-white shadow-sm">
+	<h2 class="text-2xl font-semibold mb-4 text-gray-800">WebSocket Countdown Demo</h2>
 
 	{#if wsManager}
-		<div class="status-row">
+		<div class="mb-4">
 			<WebSocketStatus status={wsManager.status} />
 		</div>
 	{/if}
 
 	<form method="POST" action="?/countdown">
-		<button type="submit" disabled={status !== 'connected'}>
+		<button
+			type="submit"
+			disabled={status !== 'connected'}
+			class="px-4 py-2 text-base cursor-pointer bg-blue-600 text-white border-none rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+		>
 			Start Countdown
 		</button>
 	</form>
 
 	{#if latestCount !== null}
-		<div class="countdown-display">
-			<span class="count">{latestCount}</span>
+		<div class="my-6 text-center">
+			<span class="text-6xl font-bold text-blue-600">{latestCount}</span>
 		</div>
 	{/if}
 
 	{#if messages.length > 0}
-		<div class="messages">
-			<h3>
-				Messages received
-				<button type="button" onclick={clearMessages}>Clear</button>
+		<div class="mt-4 pt-4 border-t border-gray-200">
+			<h3 class="flex justify-between items-center mb-2 text-lg font-medium">
+				<span>Messages received</span>
+				<button
+					type="button"
+					onclick={clearMessages}
+					class="text-xs px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+				>
+					Clear
+				</button>
 			</h3>
-			<ul>
+			<ul class="list-none p-0 m-0 max-h-[200px] overflow-y-auto space-y-1">
 				{#each messages as msg}
-					<li>Count: {msg.count} (at {new Date(msg.timestamp).toLocaleTimeString()})</li>
+					<li class="py-1 text-sm text-gray-600">
+						Count: {msg.count} (at {new Date(msg.timestamp).toLocaleTimeString()})
+					</li>
 				{/each}
 			</ul>
 		</div>
 	{/if}
 </div>
 
-<style>
-	.websocket-demo {
-		margin-top: 2rem;
-		padding: 1rem;
-		border: 1px solid #ccc;
-		border-radius: 8px;
-		max-width: 400px;
-	}
-
-	.status-row {
-		margin-bottom: 1rem;
-	}
-
-	button {
-		padding: 0.5rem 1rem;
-		font-size: 1rem;
-		cursor: pointer;
-		background: #007bff;
-		color: white;
-		border: none;
-		border-radius: 4px;
-	}
-
-	button:disabled {
-		background: #ccc;
-		cursor: not-allowed;
-	}
-
-	button:hover:not(:disabled) {
-		background: #0056b3;
-	}
-
-	.countdown-display {
-		margin: 1.5rem 0;
-		text-align: center;
-	}
-
-	.count {
-		font-size: 4rem;
-		font-weight: bold;
-		color: #007bff;
-	}
-
-	.messages {
-		margin-top: 1rem;
-		padding-top: 1rem;
-		border-top: 1px solid #eee;
-	}
-
-	.messages h3 {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 0.5rem;
-	}
-
-	.messages h3 button {
-		font-size: 0.75rem;
-		padding: 0.25rem 0.5rem;
-	}
-
-	.messages ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		max-height: 200px;
-		overflow-y: auto;
-	}
-
-	.messages li {
-		padding: 0.25rem 0;
-		font-size: 0.875rem;
-		color: #666;
-	}
-</style>

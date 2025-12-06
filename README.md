@@ -65,12 +65,22 @@ Browser ←WebSocket→ MessageCoordinator (Durable Object) ←POST→ SvelteKit
 
 In development, Vite's dev server intercepts all WebSocket connections for HMR (Hot Module Replacement), preventing SvelteKit routes from handling WebSocket upgrades.
 
-**Solution**: The WebSocket client connects directly to the backend worker (port 8787) in dev mode:
+**Solution**: The WebSocket client connects directly to the backend worker (port 8787) in dev mode. This is configured via environment variables:
 
-```typescript
-const isDev = window.location.port === '5173';
-const host = isDev ? 'localhost:8787' : window.location.host;
+- `VITE_WS_HOST` - WebSocket host (defaults to `localhost:8787` in dev, `window.location.host` in production)
+- `VITE_WS_PATH` - WebSocket path (defaults to `/ws/connect` in dev, `/api/ws/connect` in production)
+
+Create a `.env.dev` file in the `frontend/` directory with your development settings:
+
+```bash
+cd frontend
+cat > .env.dev << EOF
+VITE_WS_HOST=localhost:8787
+VITE_WS_PATH=/ws/connect
+EOF
 ```
+
+You can override these values by setting environment variables or creating a `.env.local` file.
 
 In production, there's no Vite server - all requests go directly through the Cloudflare Worker, so WebSocket upgrades work normally on the same origin.
 

@@ -45,10 +45,10 @@ export class WebSocketManager {
 
 		// In dev mode, connect directly to the backend worker on port 8787
 		// In production, use the same host
-		const isDev = window.location.port === '5173';
+		const isDev = import.meta.env.DEV;
 		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-		const host = isDev ? 'localhost:8787' : window.location.host;
-		const path = isDev ? '/ws/connect' : '/api/ws/connect';
+		const host = import.meta.env.VITE_WS_HOST || (isDev ? 'localhost:8787' : window.location.host);
+		const path = import.meta.env.VITE_WS_PATH || (isDev ? '/ws/connect' : '/api/ws/connect');
 		const url = `${protocol}//${host}${path}`;
 
 		console.log('[WebSocket] Connecting to:', url);

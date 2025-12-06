@@ -29,6 +29,11 @@
 				"name": "MESSAGE_COORDINATOR",
 				"class_name": "MessageCoordinator",
 				"script_name": "backend-test"
+			},
+			{
+				"name": "COUNTDOWN_TIMER",
+				"class_name": "CountdownTimer",
+				"script_name": "backend-test"
 			}
 		]
 	},

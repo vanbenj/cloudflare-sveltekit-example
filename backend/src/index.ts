@@ -13,6 +13,7 @@
 
 export { TestDurableObject } from './test-do';
 export { MessageCoordinator } from './message-coordinator';
+export { CountdownTimer } from './countdown-timer';
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {

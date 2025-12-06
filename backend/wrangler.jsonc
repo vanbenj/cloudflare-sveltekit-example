@@ -18,6 +18,10 @@
 		{
 			"tag": "v2",
 			"new_classes": ["MessageCoordinator"]
+		},
+		{
+			"tag": "v3",
+			"new_classes": ["CountdownTimer"]
 		}
 	],
 	"durable_objects": {
@@ -29,6 +33,10 @@
 			{
 				"name": "MESSAGE_COORDINATOR",
 				"class_name": "MessageCoordinator"
+			},
+			{
+				"name": "COUNTDOWN_TIMER",
+				"class_name": "CountdownTimer"
 			}
 		]
 	},
